@@ -22,7 +22,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           goos: ${{ matrix.goos }}
           goarch: ${{ matrix.goarch }}
-          project_path: "./cmd/tbb"
-          binary_name: "tbb"
+          project_path: "./main.go"
+          binary_name: "wolk"
           ldflags: "-s -w"
           extra_files: LICENSE Readme.md
