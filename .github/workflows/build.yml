@@ -1,6 +1,4 @@
-
-
-name: Release TBB binaries
+name: Release wolk cli binaries
 
 on:
   release:
