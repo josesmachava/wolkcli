@@ -1,25 +1,50 @@
 package wolk
 
 import (
+	"bytes"
 	"fmt"
+	"io"
+	"io/ioutil"
 	"log"
+	"mime/multipart"
+	"net/http"
 	"os"
+	"path/filepath"
 )
 
 func ReadCurrentDir() {
-	file, err := os.Open(".")
+
+	file, err := os.Open("index.html")
 	if err != nil {
-		log.Fatalf("failed opening directory: %s", err)
+		log.Fatal(err)
 	}
 	defer file.Close()
 
-	list, _ := file.Readdirnames(0) // 0 to read all files and folders
-	for _, name := range list {
-		if name == "index.html" {
-			fmt.Println("Found html file")
+	body := &bytes.Buffer{}
+	writer := multipart.NewWriter(body)
+	part, _ := writer.CreateFormFile("file", filepath.Base(file.Name()))
+	io.Copy(part, file)
+	writer.Close()
 
+	r, _ := http.NewRequest("POST", "http://localhost:8000/api/upload", body)
+	r.Header.Add("Content-Type", writer.FormDataContentType())
+	client := &http.Client{}
+	res, err := client.Do(r)
+
+	if err != nil {
+		fmt.Printf("client: error making http request: %s\n", err)
+		os.Exit(1)
+	}
+	defer res.Body.Close()
+	if res.StatusCode == http.StatusOK {
+		body, err := ioutil.ReadAll(res.Body)
+
+		if err != nil {
+			fmt.Printf("Error occur")
 		}
 
-		fmt.Println("index.html not found in directoy")
+		bodyString := string(body)
+		fmt.Printf(bodyString)
 	}
+
 }
