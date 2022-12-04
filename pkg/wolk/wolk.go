@@ -26,7 +26,7 @@ func ReadCurrentDir() {
 	io.Copy(part, file)
 	writer.Close()
 
-	r, _ := http.NewRequest("POST", "http://localhost:8000/api/upload", body)
+	r, _ := http.NewRequest("POST", "https://clownfish-app-5tgjj.ondigitalocean.app/api/upload", body)
 	r.Header.Add("Content-Type", writer.FormDataContentType())
 	client := &http.Client{}
 	res, err := client.Do(r)
