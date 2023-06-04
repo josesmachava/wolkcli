@@ -9,8 +9,8 @@ import (
 
 var rootCmd = &cobra.Command{
 	Use:   "wolk",
-	Short: "The wolkclt command is your primary way to interact with wolk's Global Application Platform",
-	Long:  `The wolkclt command is your primary way to interact with wolk's Global Application Platform`,
+	Short: "The wolk cli command is your primary way to interact with wolk's Global Application Platform",
+	Long:  `The wolk cli command is your primary way to interact with wolk's Global Application Platform`,
 
 	Run: func(cmd *cobra.Command, args []string) {
 
